@@ -201,7 +201,7 @@ class _CardProductState extends State<CardProduct> {
                           realPrice: AppUtils.formattedPrice(priceAsInt),
                           DiscountPrice:
                               AppUtils.formattedPrice(discountPrice.toDouble()),
-                          discount: widget.product.discount!.toInt(),
+                          discount: widget.product.discount.toInt(),
                         )
                       : NotDiscount(price: AppUtils.formattedPrice(priceAsInt)),
                   Row(
@@ -253,7 +253,7 @@ class discountBadge extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
-          "${widget.product.discount!.toInt()}%",
+          "${widget.product.discount.toInt()}%",
           style: const TextStyle(
             fontSize: 14,
             color: Colors.white,
