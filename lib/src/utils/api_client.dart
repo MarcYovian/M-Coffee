@@ -36,14 +36,13 @@ class ApiClient {
 
     final Map<String, dynamic> data = json.decode(response.body);
     final int statusCode = data['code'];
-    print(statusCode);
-    if (statusCode == 201) {
+    final String message = data['message'];
+    if (statusCode == 200) {
       // Kode 201 menunjukkan bahwa permintaan berhasil
-      print('Product added successfully!');
+      print(message);
     } else {
       // Kode selain 201 menunjukkan bahwa ada kesalahan
-      final String errorMessage = data['message'];
-      print(errorMessage);
+      print(message);
     }
   }
 
@@ -67,8 +66,7 @@ class ApiClient {
     final Map<String, dynamic> data = json.decode(response.body);
     final int statusCode = data['code'];
     final String message = data['message'];
-    print(statusCode);
-    if (statusCode == 201) {
+    if (statusCode == 200) {
       // Kode 201 menunjukkan bahwa permintaan berhasil
       print(message);
     } else {

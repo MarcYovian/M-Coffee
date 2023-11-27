@@ -34,8 +34,6 @@ class _CreateProductState extends State<CreateProduct> {
     }
   }
 
-  double rating = 2.5;
-
   // List kategori
   List<String> categories = [
     "Coffee",
@@ -46,20 +44,29 @@ class _CreateProductState extends State<CreateProduct> {
     "Tea",
     "Toast",
   ];
-  String? category;
   int lastValidValue = 0;
+
+  String? category;
+  double rating = 2.5;
+
+  late TextEditingController nameController;
+  late TextEditingController priceController;
+  late TextEditingController discountController;
+  late TextEditingController descriptionController;
+  late TextEditingController numOfSalesController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    priceController = TextEditingController();
+    discountController = TextEditingController();
+    descriptionController = TextEditingController();
+    numOfSalesController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final String image;
-    // String? createdAt;
-    // String? updatedAt;
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController priceController = TextEditingController();
-    final TextEditingController discountController = TextEditingController();
-    final TextEditingController descriptionController = TextEditingController();
-    final TextEditingController numOfSalesController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Create New Product"),

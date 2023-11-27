@@ -277,24 +277,20 @@ class _UpdateProductState extends State<UpdateProduct> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text(
-                            "Error",
-                            style: TextStyle(color: AppConstants.primaryText),
-                          ),
-                          content: const Text(
-                            "Please fill in all the fields",
-                            style: TextStyle(color: AppConstants.primaryText),
-                          ),
+                          title: const Text("Error",
+                              style:
+                                  TextStyle(color: AppConstants.primaryText)),
+                          content: const Text("Please fill in all the fields",
+                              style:
+                                  TextStyle(color: AppConstants.primaryText)),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: const Text(
-                                "OK",
-                                style:
-                                    TextStyle(color: AppConstants.primaryText),
-                              ),
+                              child: const Text("OK",
+                                  style: TextStyle(
+                                      color: AppConstants.primaryText)),
                             ),
                           ],
                           backgroundColor: AppConstants.primaryColor,
@@ -327,7 +323,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                       category: category.toString(),
                     );
                     await ApiClient.UpdateProducts(newProduct);
-                    Navigator.pop(context);
                   }
                 },
                 style: const ButtonStyle(
