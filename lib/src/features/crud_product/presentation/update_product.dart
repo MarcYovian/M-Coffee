@@ -198,7 +198,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                 onChanged: (value) {
                   if (value.isNotEmpty) {
                     int inputValue = int.parse(value);
-
                     if (inputValue > 100) {
                       discountController.text = lastValidValue.toString();
                     } else {
@@ -288,9 +287,15 @@ class _UpdateProductState extends State<UpdateProduct> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: const Text("OK",
-                                  style: TextStyle(
-                                      color: AppConstants.primaryText)),
+                              child: const Text(
+                                "OK",
+                                style:
+                                    TextStyle(color: AppConstants.primaryColor),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                                    AppConstants.primaryText),
+                              ),
                             ),
                           ],
                           backgroundColor: AppConstants.primaryColor,
@@ -298,38 +303,80 @@ class _UpdateProductState extends State<UpdateProduct> {
                       },
                     );
                   } else {
-                    // Save image to direktori
-                    final directory = await getApplicationDocumentsDirectory();
-                    final subDirectory =
-                        Directory('${directory.path}/assets/images/products/');
-                    final fileName = basename(imageFile!.path);
-                    imgName = fileName;
-                    if (!(await subDirectory.exists())) {
-                      await subDirectory.create(recursive: true);
-                    }
-                    imageFile =
-                        await imageFile!.copy('${subDirectory.path}/$fileName');
-
-                    // add new Data
-                    final newProduct = Products(
-                      id: widget.data?.id,
-                      name: nameController.text,
-                      image: imgName.toString(),
-                      price: int.parse(priceController.text),
-                      discount: int.parse(discountController.text),
-                      description: descriptionController.text,
-                      rating: double.parse(rating.toStringAsFixed(1)),
-                      numOfSales: int.parse(numOfSalesController.text),
-                      category: category.toString(),
+                    bool confirmUpdate = await showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text("Konfirmasi Update Produk"),
+                        content: Text(
+                            "Apakah anda yakin ingin mengupdate data produk ini?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, false),
+                            child: Text(
+                              "Batal",
+                              style: TextStyle(
+                                color: AppConstants.primaryColor,
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  AppConstants.primaryText),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: Text(
+                              "Update",
+                              style: TextStyle(
+                                color: AppConstants.primaryColor,
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  AppConstants.primaryText),
+                            ),
+                          ),
+                        ],
+                        backgroundColor: AppConstants.primaryColor,
+                      ),
                     );
-                    await ApiClient.UpdateProducts(newProduct);
+
+                    if (confirmUpdate == true) {
+                      // Save image to direktori
+                      final directory =
+                          await getApplicationDocumentsDirectory();
+                      final subDirectory = Directory(
+                          '${directory.path}/assets/images/products/');
+                      final fileName = basename(imageFile!.path);
+                      imgName = fileName;
+                      if (!(await subDirectory.exists())) {
+                        await subDirectory.create(recursive: true);
+                      }
+                      imageFile = await imageFile!
+                          .copy('${subDirectory.path}/$fileName');
+
+                      // add new Data
+                      final newProduct = Products(
+                        id: widget.data?.id,
+                        name: nameController.text,
+                        image: imgName.toString(),
+                        price: int.parse(priceController.text),
+                        discount: int.parse(discountController.text),
+                        description: descriptionController.text,
+                        rating: double.parse(rating.toStringAsFixed(1)),
+                        numOfSales: int.parse(numOfSalesController.text),
+                        category: category.toString(),
+                      );
+                      await ApiClient.UpdateProducts(newProduct);
+                      Navigator.pop(context);
+                    }
                   }
                 },
                 style: const ButtonStyle(
                   backgroundColor:
                       MaterialStatePropertyAll(AppConstants.primaryColor),
                 ),
-                child: const Text("Add Product"),
+                child: const Text("Update Product"),
               ),
             ],
           ),
